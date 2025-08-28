@@ -56,10 +56,10 @@ for (const button of callButtons) {
     historyItem.innerHTML = `
           <div class="flex justify-between ">
             <div>
-              <h2 class="font-semibold inter-font">Fire Service Number</h2>
-              <p class="inter-font">999</p>
+              <h2 class="font-semibold inter-font">${serviceName}</h2>
+            <p class="inter-font">${serviceNumber}</p>
             </div>
-            <p class="inter-font ml-20">11:36:59 AM</p>
+            <p class="inter-font ml-10">${time}</p>
           </div>
     `;
 
@@ -71,3 +71,30 @@ for (const button of callButtons) {
 clearBtn.addEventListener("click", function () {
   callHistory.innerHTML = "";
 });
+
+// COPY BUTTON FEATURES
+
+const copyButtons = document.getElementsByClassName("copy-button");
+
+const copyCountElem = document.getElementById("copy-count");
+let copyCount = parseInt(copyCountElem.innerText);
+
+for (const button of copyButtons) {
+  button.addEventListener("click", function () {
+    const card = button.closest(".cards");
+
+    const hotlineNumber = card.querySelector(".service-number").innerText;
+
+    navigator.clipboard
+      .writeText(hotlineNumber)
+      .then(function () {
+        alert("Copied" + " " + hotlineNumber + " " + "to" + " " + "clipboard");
+
+        copyCount++;
+        copyCountElem.innerText = copyCount;
+      })
+      .catch((err) => {
+        console.error("Failed to copy: ", err);
+      });
+  });
+}
